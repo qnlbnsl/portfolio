@@ -10,8 +10,10 @@
 		"sourceMap": true,
 		"strict": true,
 		"moduleResolution": "bundler",
-		"module": "ES2022"
-	}
+		"module": "ES2022",
+	},
+	"exclude": ["node_modules", "dist", "static"]
+
 	// Path aliases are handled by https://svelte.dev/docs/kit/configuration#alias
 	// except $lib which is handled by https://svelte.dev/docs/kit/configuration#files
 	//

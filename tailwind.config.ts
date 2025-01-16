@@ -10,5 +10,6 @@ export default {
     extend: {}
   },
 
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   plugins: [typography, forms, containerQueries, require('daisyui')]
 } satisfies Config;
