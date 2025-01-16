@@ -90,3 +90,5 @@ typings/
 *storybook.log
 
 .svelte-kit
+build
+.DS_Store
