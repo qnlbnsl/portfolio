@@ -1,3 +1,50 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
-@import 'tailwindcss/utilities'
+@import 'tailwindcss/utilities';
+
+:root {
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-secondary: 'EB Garamond', Georgia, serif;
+
+  /* Light theme variables */
+  --background-light: #ffffff;
+  --text-light: #1a1a1a;
+  --accent-light: #6366f1;
+  --secondary-light: #f3f4f6;
+  --border-light: #e5e7eb;
+
+  /* Dark theme variables */
+  --background-dark: #121212;
+  --text-dark: #f3f4f6;
+  --accent-dark: #818cf8;
+  --secondary-dark: #1f2937;
+  --border-dark: #374151;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.light {
+  --background: var(--background-light);
+  --text: var(--text-light);
+  --accent: var(--accent-light);
+  --secondary: var(--secondary-light);
+  --border: var(--border-light);
+}
+
+.dark {
+  --background: var(--background-dark);
+  --text: var(--text-dark);
+  --accent: var(--accent-dark);
+  --secondary: var(--secondary-dark);
+  --border: var(--border-dark);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text);
+}
