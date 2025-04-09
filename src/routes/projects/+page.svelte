@@ -42,23 +42,28 @@
   />
 </svelte:head>
 
-<section class="projects">
-  <div class="projects-header">
-    <h1>Projects & Blog</h1>
-    <p>Explore my work and technical writings across various domains</p>
+<section class="projects py-12 md:py-16 px-4">
+  <div class="projects-header text-center mb-12 max-w-2xl mx-auto">
+    <h1 class="font-secondary text-4xl md:text-5xl mb-4">Projects & Blog</h1>
+    <p class="text-lg md:text-xl text-base-content/80">
+      Explore my work and technical writings across various domains
+    </p>
   </div>
 
-  <div class="filters">
+  <div class="filters flex flex-wrap justify-center gap-3 mb-12">
     {#each categories as category}
-      <button class="filter-button {activeFilter === category.id ? 'active' : ''}" on:click={() => filterProjects(category.id)}>
+      <button
+        class="filter-button btn btn-sm rounded-full {activeFilter === category.id ? 'btn-accent' : 'btn-neutral'}"
+        on:click={() => filterProjects(category.id)}
+      >
         {category.name}
       </button>
     {/each}
   </div>
 
   {#if visible}
-    <div class="projects-grid" in:fade={{ duration: 800 }}>
-      {#each filteredProjects as project}
+    <div class="projects-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-screen-xl mx-auto" in:fade={{ duration: 800 }}>
+      {#each filteredProjects as project (project.id)}
         <CardLarge
           image={project.thumbnail || "/placeholder.svg"}
           title={project.title}
@@ -69,142 +74,3 @@
     </div>
   {/if}
 </section>
-
-<style>
-  .projects {
-    padding: 4rem 1rem;
-  }
-
-  .projects-header {
-    text-align: center;
-    margin-bottom: 3rem;
-  }
-
-  .projects-header h1 {
-    font-family: var(--font-secondary);
-    font-size: 3rem;
-    margin-bottom: 1rem;
-  }
-
-  .projects-header p {
-    font-size: 1.25rem;
-    max-width: 600px;
-    margin: 0 auto;
-    color: var(--text);
-    opacity: 0.8;
-  }
-
-  .filters {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.75rem;
-    margin-bottom: 3rem;
-  }
-
-  .filter-button {
-    background-color: transparent;
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 0.5rem 1rem;
-    border-radius: 30px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: all 0.3s ease;
-  }
-
-  .filter-button:hover {
-    background-color: var(--secondary);
-  }
-
-  .filter-button.active {
-    background-color: var(--accent);
-    color: white;
-    border-color: var(--accent);
-  }
-
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-  }
-
-  .project-card {
-    background-color: var(--background);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-    text-decoration: none;
-    color: var(--text);
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .project-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  }
-
-  .project-image {
-    height: 200px;
-    overflow: hidden;
-  }
-
-  .project-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-  }
-
-  .project-card:hover .project-image img {
-    transform: scale(1.05);
-  }
-
-  .project-content {
-    padding: 1.5rem;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .project-content h2 {
-    font-size: 1.5rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .project-content p {
-    margin-bottom: 1.25rem;
-    line-height: 1.6;
-    flex: 1;
-  }
-
-  .project-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .tag {
-    background-color: var(--secondary);
-    color: var(--text);
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: 500;
-  }
-
-  @media (max-width: 768px) {
-    .projects-header h1 {
-      font-size: 2.25rem;
-    }
-
-    .projects-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>

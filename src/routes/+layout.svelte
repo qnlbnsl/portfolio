@@ -6,18 +6,26 @@
   import "../app.css";
 
   onMount(() => {
-    // Check for saved theme preference
     const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) {
-      theme.set(savedTheme);
-    } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      theme.set("dark");
-    }
+    let currentTheme = "mytheme-dark"; // Default theme
 
-    // Apply theme class to document
+    if (savedTheme) {
+      currentTheme = savedTheme;
+    } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      currentTheme = "mytheme-dark";
+    }
+    theme.set(currentTheme);
+
+    // Apply the theme attribute initially
+    // Always set the attribute now
+    document.documentElement.setAttribute("data-theme", currentTheme);
+
+    // Update attribute when theme store changes
     const unsubscribe = theme.subscribe((value) => {
-      document.documentElement.classList.remove("light", "dark");
-      document.documentElement.classList.add(value);
+      // Always set the attribute to the current theme value
+      document.documentElement.setAttribute("data-theme", value);
+
+      // Still save preference to localStorage
       localStorage.setItem("theme", value);
     });
 
@@ -27,7 +35,7 @@
   });
 </script>
 
-<div class="app {$theme}">
+<div class="app">
   <Navbar />
   <main>
     <slot />
@@ -44,9 +52,6 @@
 
   main {
     flex: 1;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
     width: 100%;
   }
 </style>

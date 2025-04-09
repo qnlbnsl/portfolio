@@ -1,50 +1,100 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import 'tailwindcss';
 
-:root {
-  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-secondary: 'EB Garamond', Georgia, serif;
+@plugin "daisyui";
 
-  /* Light theme variables */
-  --background-light: #ffffff;
-  --text-light: #1a1a1a;
-  --accent-light: #6366f1;
-  --secondary-light: #f3f4f6;
-  --border-light: #e5e7eb;
+@plugin "daisyui/theme" {
+    name: "mytheme-light";
 
-  /* Dark theme variables */
-  --background-dark: #121212;
-  --text-dark: #f3f4f6;
-  --accent-dark: #818cf8;
-  --secondary-dark: #1f2937;
-  --border-dark: #374151;
+    --color-primary: #6366f1;
+    --color-secondary: #e5e7eb;
+    --color-accent: #6366f1;
+    --color-neutral: #e5e7eb;
+    --color-neutral-content: #1a1a1a;
+    --color-base-100: #f3f3f3;
+    --color-base-200: #ffffff;
+    --color-base-300: #D1D5DB;
+    --color-base-content: #1a1a1a;
+    --color-secondary-content: #1a1a1a;
+
+    --p: 241 73% 67%;
+    --s: 220 13% 90%;
+    --a: 241 73% 67%;
+    --n: 220 13% 90%;
+    --nc: 0 0% 10%;
+    --b1: 0 0% 95%;
+    --b2: 0 0% 100%;
+    --b3: 216 12% 84%;
+    --bc: 0 0% 10%;
+    --sc: 0 0% 10%;
+
+    --color-info: #3abff8;
+    --color-success: #36d399;
+    --color-warning: #fbbd23;
+    --color-error: #f87272;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
+@plugin "daisyui/theme" {
+    name: "mytheme-dark";
 
-.light {
-  --background: var(--background-light);
-  --text: var(--text-light);
-  --accent: var(--accent-light);
-  --secondary: var(--secondary-light);
-  --border: var(--border-light);
-}
+    --color-primary: #818cf8;
+    --color-secondary: #1f2937;
+    --color-accent: #818cf8;
+    --color-neutral: #374151;
+    --color-neutral-content: #f3f4f6;
+    --color-base-100: #121212;
+    --color-base-200: #1f2937;
+    --color-base-300: #374151;
+    --color-base-content: #f3f4f6;
+    --color-secondary-content: #f3f4f6;
 
-.dark {
-  --background: var(--background-dark);
-  --text: var(--text-dark);
-  --accent: var(--accent-dark);
-  --secondary: var(--secondary-dark);
-  --border: var(--border-dark);
-}
+    --p: 236 86% 77%;
+    --s: 215 28% 17%;
+    --a: 236 86% 77%;
+    --n: 215 14% 27%;
+    --nc: 220 14% 95%;
+    --b1: 0 0% 7%;
+    --b2: 215 28% 17%;
+    --b3: 215 14% 27%;
+    --bc: 220 14% 95%;
+    --sc: 220 14% 95%;
 
-body {
-  background-color: var(--background);
-  color: var(--text);
+    --color-info: #3abff8;
+    --color-success: #36d399;
+    --color-warning: #fbbd23;
+    --color-error: #f87272;
 }
+  
+
+/* Remove your previous :root variable definitions, .light/.dark classes,
+   and manual body styling. DaisyUI handles theme application via the
+   `data-theme` attribute based on the configurations above. */
+
+  
+/*
+  Optional base styles using @layer if needed 
+  @layer base {
+    body {
+      @apply font-primary; // Apply your primary font if defined in tailwind.config.js
+    }
+  }
+*/
+
+/* Specificity override for light theme when OS is dark */
+/* This ensures the light theme values are applied even if a */
+/* @media (prefers-color-scheme: dark) rule targets :root */
+/* NOTE: This might not be needed if base/layer issues are resolved */
+/* Let's comment it out for now and see if defining b2/b3 fixes it */
+/*
+html[data-theme="mytheme-light"] {
+  color-scheme: light;
+  --p: 241 73% 67%;
+  --s: 225 14% 97%;
+  --a: 241 73% 67%;
+  --n: 220 13% 90%;
+  --b1: 0 0% 95%;
+  --b2: 0 0% 100%;
+  --b3: 220 13% 90%;
+  --bc: 0 0% 10%;
+  --sc: 0 0% 10%;
+}
+*/
