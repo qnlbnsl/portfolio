@@ -124,7 +124,7 @@
 				}}
 				aria-label="Toggle theme"
 			>
-				{#if $theme === 'mytheme-dark'}
+				{#if $theme === 'dark'}
 					<!-- Sun Icon -->
 					<SunOutline class="h-5 w-5" />
 				{:else}

@@ -4,7 +4,7 @@
 @plugin "daisyui";
 
 @plugin "daisyui/theme" {
-    name: "mytheme-light";
+    name: "light";
 
     --color-primary: #6366f1;
     --color-secondary: #e5e7eb;
@@ -36,7 +36,7 @@
 }
 
 @plugin "daisyui/theme" {
-    name: "mytheme-dark";
+    name: "dark";
 
     --color-primary: #818cf8;
     --color-secondary: #1f2937;

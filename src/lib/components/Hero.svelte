@@ -34,9 +34,7 @@
 						class="image-frame relative h-full w-full overflow-hidden rounded-3xl shadow-xl will-change-transform backface-hidden"
 					>
 						<img
-							src={$theme === 'mytheme-dark'
-								? '/images/profile_dark.png'
-								: '/images/profile_light.png'}
+							src={$theme === 'dark' ? '/images/profile_dark.png' : '/images/profile_light.png'}
 							alt="Kunal Bansal"
 							class="h-full w-full object-cover transition-transform duration-500 ease-out hover:scale-105"
 						/>

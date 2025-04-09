@@ -7,12 +7,12 @@
 
 	onMount(() => {
 		const savedTheme = localStorage.getItem('theme');
-		let currentTheme = 'mytheme-light'; // Default to light theme initially
+		let currentTheme = 'light'; // Default to light theme initially
 
 		if (savedTheme) {
 			currentTheme = savedTheme;
 		} else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-			currentTheme = 'mytheme-dark';
+			currentTheme = 'dark';
 		}
 		theme.set(currentTheme);
 
