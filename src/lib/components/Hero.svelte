@@ -1,9 +1,9 @@
 <script>
   import { fade, fly } from "svelte/transition";
   import { onMount } from "svelte";
+  import { theme } from "$lib/stores/theme.js";
 
   let visible = false;
-
   onMount(() => {
     visible = true;
   });
@@ -19,7 +19,7 @@
         <div class="hero-image-wrapper">
           <div class="blob-shape"></div>
           <div class="image-frame">
-            <img src="/images/photo.jpeg" alt="Kunal Bansal" />
+            <img src={$theme === "dark" ? "/images/profile_dark.png" : "/images/profile_light.png"} alt="Kunal Bansal" />
           </div>
         </div>
       </div>
@@ -140,6 +140,8 @@
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    flex-grow: 1;
+    text-align: center;
   }
 
   .cta-button::before {
@@ -207,6 +209,9 @@
     overflow: hidden;
     border-radius: 40px;
     box-shadow: 0 30px 50px rgba(0, 0, 0, 0.1);
+    will-change: transform;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
   }
 
   .image-frame img {
@@ -214,6 +219,7 @@
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
+    filter: blur(0.2px);
   }
 
   .image-frame:hover img {
@@ -239,8 +245,18 @@
   }
 
   @media (max-width: 768px) {
+    .hero-text {
+      text-align: center;
+    }
+
     .hero-text h1 {
       font-size: 2.5rem;
+      align-items: center;
+    }
+
+    .hero-text p {
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .hero-image-wrapper {

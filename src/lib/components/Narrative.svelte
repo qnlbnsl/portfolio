@@ -7,6 +7,8 @@
 
   /** @type {{skills: Skill[]}} */
   let { skills } = $props();
+
+  import CardSmall from "./CardSmall.svelte";
 </script>
 
 <section class="narrative">
@@ -32,47 +34,7 @@
     <h3>Key Strengths</h3>
     <div class="skills-grid">
       {#each skills as skill}
-        <div class="skill-card">
-          <div class="skill-icon">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              {#if skill.icon === "server"}
-                <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
-                <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
-                <line x1="6" y1="6" x2="6.01" y2="6"></line>
-                <line x1="6" y1="18" x2="6.01" y2="18"></line>
-              {:else if skill.icon === "vr-headset"}
-                <path d="M3 12h18"></path>
-                <path d="M3 12a6.5 6.5 0 0 1 6.5-6.5H12"></path>
-                <path d="M21 12a6.5 6.5 0 0 0-6.5-6.5H12"></path>
-                <path d="M3 12a6.5 6.5 0 0 0 6.5 6.5H12"></path>
-                <path d="M21 12a6.5 6.5 0 0 1-6.5 6.5H12"></path>
-              {:else if skill.icon === "heart-pulse"}
-                <path
-                  d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
-                ></path>
-                <path d="M3.22 12H9.5l.5-1 2 4 .5-2 2 2h5.27"></path>
-              {:else if skill.icon === "brain"}
-                <path
-                  d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-2.04Z"
-                ></path>
-                <path
-                  d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-2.04Z"
-                ></path>
-              {/if}
-            </svg>
-          </div>
-          <h4>{skill.name}</h4>
-        </div>
+        <CardSmall name={skill.name} icon={skill.icon} />
       {/each}
     </div>
   </div>
@@ -119,34 +81,36 @@
     gap: 1.5rem;
   }
 
-  .skill-card {
-    background-color: var(--background);
-    padding: 1.5rem;
-    border-radius: 8px;
-    text-align: center;
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
-  }
-
-  .skill-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-  }
-
-  .skill-icon {
-    margin-bottom: 1rem;
-    color: var(--accent);
-  }
-
-  .skill-card h4 {
-    font-weight: 600;
-    margin: 0;
-  }
-
+  /* Screens where auto-fit might result in 3 columns, causing an orphan */
+  /* We can keep auto-fit here for flexibility, but adjust min */
   @media (max-width: 768px) {
+    /* Adjust grid for medium screens */
+    .skills-grid {
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* Adjust min slightly */
+      gap: 1rem;
+    }
+
     .narrative-content h2 {
       font-size: 2rem;
+      text-align: center;
+    }
+
+    .narrative-content p {
+      text-align: center;
+    }
+  }
+
+  /* Force 2 columns below this width to prevent the 3+1 orphan issue */
+  @media (max-width: 675px) {
+    /* Center the inline-grid within the .skills container */
+    .skills {
+      text-align: center;
+    }
+
+    .skills-grid {
+      display: inline-grid; /* Make grid shrink-wrap */
+      grid-template-columns: repeat(2, minmax(140px, 1fr));
+      gap: 1.5rem;
     }
   }
 </style>

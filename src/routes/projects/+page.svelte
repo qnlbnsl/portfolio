@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
   import { projects } from "$lib/data/projects";
+  import CardLarge from "$lib/components/CardLarge.svelte";
 
   let visible = false;
   let activeFilter = "all";
@@ -11,6 +12,9 @@
     visible = true;
   });
 
+  /**
+   * @param {string} filter
+   */
   function filterProjects(filter) {
     activeFilter = filter;
 
@@ -55,23 +59,12 @@
   {#if visible}
     <div class="projects-grid" in:fade={{ duration: 800 }}>
       {#each filteredProjects as project}
-        <a href={`/projects/${project.id}`} class="project-card">
-          <div class="project-image">
-            <img src={project.thumbnail || "/placeholder.svg"} alt={project.title} />
-          </div>
-          <div class="project-content">
-            <h2>{project.title}</h2>
-            <p>{project.shortDescription}</p>
-            <div class="project-tags">
-              {#each project.technologies.slice(0, 3) as tech}
-                <span class="tag">{tech}</span>
-              {/each}
-              {#if project.technologies.length > 3}
-                <span class="tag">+{project.technologies.length - 3}</span>
-              {/if}
-            </div>
-          </div>
-        </a>
+        <CardLarge
+          image={project.thumbnail || "/placeholder.svg"}
+          title={project.title}
+          description={project.shortDescription}
+          link={`/projects/${project.id}`}
+        />
       {/each}
     </div>
   {/if}

@@ -1,4 +1,6 @@
 <script>
+  import CardLarge from "./CardLarge.svelte";
+
   /**
    * @typedef {Object} Highlight
    * @property {string} id - Unique identifier for the highlight
@@ -8,9 +10,6 @@
    * @property {string} link - URL to the detailed view
    */
 
-  // Explicitly export the prop with JSDoc type
-  // /** @type {Highlight[]} */
-  // export let highlights;
   /** @type {{highlights: Highlight[]}} */
   let { highlights } = $props();
 </script>
@@ -19,16 +18,7 @@
   <h2>Highlighted Work</h2>
   <div class="highlights-grid">
     {#each highlights as highlight}
-      <div class="highlight-card">
-        <div class="highlight-image">
-          <img src={highlight.image || "/placeholder.svg"} alt={highlight.title} />
-        </div>
-        <div class="highlight-content">
-          <h3>{highlight.title}</h3>
-          <p>{highlight.description}</p>
-          <a href={highlight.link} class="highlight-link">Learn more</a>
-        </div>
-      </div>
+      <CardLarge image={highlight.image} title={highlight.title} description={highlight.description} link={highlight.link} />
     {/each}
   </div>
 
@@ -40,8 +30,8 @@
 <style>
   .highlights {
     padding: 5rem 1rem;
+    background-image: linear-gradient(45deg, var(--secondary) 0%, var(--background) 100%);
   }
-
   .highlights h2 {
     font-family: var(--font-secondary);
     font-size: 2.5rem;
@@ -55,64 +45,6 @@
     gap: 2rem;
     max-width: 1200px;
     margin: 0 auto;
-  }
-
-  .highlight-card {
-    background-color: var(--background);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
-  }
-
-  .highlight-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  }
-
-  .highlight-image {
-    height: 200px;
-    overflow: hidden;
-  }
-
-  .highlight-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-  }
-
-  .highlight-card:hover .highlight-image img {
-    transform: scale(1.05);
-  }
-
-  .highlight-content {
-    padding: 1.5rem;
-  }
-
-  .highlight-content h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .highlight-content p {
-    margin-bottom: 1.25rem;
-    line-height: 1.6;
-  }
-
-  .highlight-link {
-    color: var(--accent);
-    text-decoration: none;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    transition: color 0.3s ease;
-  }
-
-  .highlight-link:hover {
-    text-decoration: underline;
   }
 
   .secondary-cta {

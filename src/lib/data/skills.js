@@ -6,8 +6,11 @@
 
 /** @type {Skill[]} */
 export const skills = [
-  { name: "DevOps", icon: "server" },
-  { name: "AR/VR", icon: "vr-headset" },
-  { name: "Healthcare Tech", icon: "heart-pulse" },
-  { name: "AI", icon: "brain" },
+  { name: "DevOps", icon: "Server" },
+  { name: "AR/VR", icon: "VrHeadset" },
+  { name: "Healthcare Tech", icon: "HeartPulse" },
+  { name: "AI", icon: "Brain" },
 ];
+
+
+
