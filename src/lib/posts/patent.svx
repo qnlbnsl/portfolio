@@ -1,0 +1,36 @@
+---
+title: 'Patent #11734789: AR/VR Performance Improvements'
+shortDescription: 'Patented technology for enhancing performance in AR/VR applications'
+categories:
+  - ar-vr
+thumbnail: '/placeholder.svg?height=300&width=400'
+image: '/placeholder.svg?height=600&width=800'
+github: null
+highlight: true
+publishedDate: '2023-08-15' # Approximate date patent was granted/published
+technologies:
+  - AR/VR
+  - Performance Optimization
+  - Patent
+---
+
+## Abstract
+
+This patent covers innovative techniques for improving performance in augmented and virtual reality applications. The technology addresses key challenges in rendering efficiency, latency reduction, and user experience enhancement.
+
+## Technical Deep Dive
+
+### Performance Optimization
+
+The patented technology includes novel approaches to optimize rendering pipelines, reduce motion-to-photon latency, and improve overall system performance in AR/VR environments.
+
+### Implementation Impact
+
+When implemented in production systems, these techniques have demonstrated significant improvements in frame rates, reduced latency, and enhanced user comfort during extended AR/VR sessions.
+
+## Outcomes & Lessons Learned
+
+- Successfully patented as US Patent #11734789
+- Implemented in commercial AR/VR training applications
+- Demonstrated 30% improvement in rendering performance
+- Reduced motion-to-photon latency by 15ms, significantly improving user comfort

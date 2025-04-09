@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 
+@plugin "@tailwindcss/typography";
 @plugin "daisyui";
 
 @plugin "daisyui/theme" {
@@ -16,6 +17,7 @@
     --color-base-content: #1a1a1a;
     --color-secondary-content: #1a1a1a;
 
+    /* Include HSL or other vars if needed */
     --p: 241 73% 67%;
     --s: 220 13% 90%;
     --a: 241 73% 67%;
@@ -47,6 +49,7 @@
     --color-base-content: #f3f4f6;
     --color-secondary-content: #f3f4f6;
 
+    /* Include HSL or other vars if needed */
     --p: 236 86% 77%;
     --s: 215 28% 17%;
     --a: 236 86% 77%;
@@ -63,38 +66,14 @@
     --color-warning: #fbbd23;
     --color-error: #f87272;
 }
-  
 
-/* Remove your previous :root variable definitions, .light/.dark classes,
-   and manual body styling. DaisyUI handles theme application via the
-   `data-theme` attribute based on the configurations above. */
 
-  
+/* Optional base styles using @layer etc can go here */
+
+/* --- REMOVE Manual Markdown Styles --- */
 /*
-  Optional base styles using @layer if needed 
-  @layer base {
-    body {
-      @apply font-primary; // Apply your primary font if defined in tailwind.config.js
-    }
-  }
-*/
-
-/* Specificity override for light theme when OS is dark */
-/* This ensures the light theme values are applied even if a */
-/* @media (prefers-color-scheme: dark) rule targets :root */
-/* NOTE: This might not be needed if base/layer issues are resolved */
-/* Let's comment it out for now and see if defining b2/b3 fixes it */
-/*
-html[data-theme="mytheme-light"] {
-  color-scheme: light;
-  --p: 241 73% 67%;
-  --s: 225 14% 97%;
-  --a: 241 73% 67%;
-  --n: 220 13% 90%;
-  --b1: 0 0% 95%;
-  --b2: 0 0% 100%;
-  --b3: 220 13% 90%;
-  --bc: 0 0% 10%;
-  --sc: 0 0% 10%;
-}
+.markdown-content h1 { ... }
+.markdown-content h2 { ... }
+...
+.markdown-content a:hover { ... }
 */
