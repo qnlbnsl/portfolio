@@ -1,7 +1,19 @@
 <script>
 	import { onMount } from 'svelte';
-	import { fade, fly } from 'svelte/transition';
-	import { CalendarWeekSolid } from 'flowbite-svelte-icons';
+	import { fade } from 'svelte/transition';
+	import {
+		BriefcaseSolid,
+		BuildingSolid,
+		UsersGroupSolid,
+		CloseOutline
+	} from 'flowbite-svelte-icons';
+	import {
+		processExperienceData,
+		getCompanyType,
+		loadExperienceContent
+	} from '$lib/utils/experienceUtils.js';
+	import HorizontalTimelineItem from '$lib/components/HorizontalTimelineItem.svelte';
+	import CompanyRolesView from '$lib/components/CompanyRolesView.svelte';
 
 	/**
 	 * @typedef {import('$lib/types/work_experience.js').WorkExperienceData} WorkExperienceData
@@ -17,93 +29,93 @@
 	let activeItemId = $state(null);
 
 	/**
+	 * @type {import('$lib/utils/experienceUtils.js').TimelineItem | null}
+	 */
+	let activeExperience = $state(null);
+
+	/**
 	 * @type {import('svelte').Component | null}
 	 */
 	let ActiveComponent = $state(null);
 
-	// Sort experiences by date (newest first)
-	const sortedExperiences = [...(workExperiences || [])].sort((a, b) => {
-		return new Date(b.startDate || '').getTime() - new Date(a.startDate || '').getTime();
-	});
+	/**
+	 * @type {string | null}
+	 */
+	let selectedRoleId = $state(null);
 
 	/**
-	 * Format a date range and calculate duration
-	 * @param {string} startDate - Start date string
-	 * @param {string} endDate - End date string or "Present"
-	 * @returns {string} Formatted date range with duration
+	 * @type {import('svelte').Component | null}
 	 */
-	function formatDateRange(startDate, endDate) {
-		if (!startDate) return '';
+	let RoleComponent = $state(null);
 
-		const start = new Date(startDate);
-		const end = endDate && endDate.toLowerCase() !== 'present' ? new Date(endDate) : new Date();
-
-		// Format as MMM YYYY
-		const startStr = start.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
-		const endStr =
-			endDate && endDate.toLowerCase() !== 'present'
-				? end.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
-				: 'Present';
-
-		// Calculate duration
-		const months =
-			(end.getFullYear() - start.getFullYear()) * 12 + end.getMonth() - start.getMonth();
-		const years = Math.floor(months / 12);
-		const remainingMonths = months % 12;
-
-		let duration = '';
-		if (years > 0) {
-			duration += `${years} yr${years > 1 ? 's' : ''}`;
-		}
-		if (remainingMonths > 0 || years === 0) {
-			if (duration) duration += ' ';
-			duration += `${remainingMonths} mo${remainingMonths > 1 ? 's' : ''}`;
-		}
-
-		return `${startStr} - ${endStr} · ${duration}`;
-	}
-
-	const timelineData = sortedExperiences.map((experience) => ({
-		id: experience.id || '',
-		title: experience.title || '',
-		company: experience.company || '',
-		date: experience.startDate ? new Date(experience.startDate).getFullYear().toString() : '',
-		dateRange: formatDateRange(experience.startDate, experience.endDate),
-		startDate: experience.startDate || '',
-		endDate: experience.endDate || 'Present'
-	}));
-
-	/**
-	 * Loads the content for the selected timeline item.
-	 * @param {string} itemId The ID of the item to load.
-	 */
-	async function loadContent(itemId) {
-		activeItemId = itemId;
-
-		try {
-			// Load the SVX file based on the selected experience ID
-			const expModule = await import(`$lib/work_experience/${itemId}.svx`);
-			// Set the component to the default export from the SVX file
-			ActiveComponent = expModule.default;
-		} catch (err) {
-			console.error(`Error loading experience ${itemId}:`, err);
-			// Keep ActiveComponent as null to show the error state
-		}
-	}
+	// Process experience data using the utility functions
+	const {
+		timelineData,
+		companyGroups,
+		companyCounts,
+		companyTypes,
+		startupCompanies,
+		consultantCompanies,
+		multiRoleCompanies
+	} = processExperienceData(workExperiences);
 
 	/**
 	 * Handle click on a timeline item
 	 * @param {string} itemId - The ID of the clicked item
 	 */
-	function handleTimelineItemClick(itemId) {
-		loadContent(itemId);
+	async function handleTimelineItemClick(itemId) {
+		const result = await loadExperienceContent(itemId, timelineData);
+		activeItemId = result.activeItemId;
+		activeExperience = result.activeExperience;
+		ActiveComponent = result.ActiveComponent;
+		// Reset role selection when changing timeline items
+		selectedRoleId = null;
+		RoleComponent = null;
 	}
+
+	/**
+	 * Handle the select event from a timeline item component
+	 * @param {CustomEvent<string>} event - Event with item ID
+	 */
+	function handleItemSelect(event) {
+		handleTimelineItemClick(event.detail);
+	}
+
+	/**
+	 * Handle the selectRole event from the CompanyRolesView component
+	 * @param {CustomEvent<string>} event - Event with role ID
+	 */
+	async function handleRoleSelect(event) {
+		const roleId = event.detail;
+		selectedRoleId = roleId;
+
+		try {
+			// Load the SVX file based on the selected role ID
+			const expModule = await import(`$lib/work_experience/${roleId}.svx`);
+			// Set the component to the default export from the SVX file
+			RoleComponent = expModule.default;
+		} catch (err) {
+			console.error(`Error loading role ${roleId}:`, err);
+			RoleComponent = null;
+		}
+	}
+
+	/**
+	 * Close the role details panel
+	 */
+	function closeRoleDetails() {
+		selectedRoleId = null;
+		RoleComponent = null;
+	}
+
+	// Create an icons object for the getTypeDetails function
+	const icons = { UsersGroupSolid, BriefcaseSolid, BuildingSolid };
 
 	onMount(() => {
 		visible = true;
 		// Set the first item as active by default
 		if (timelineData.length > 0 && !activeItemId) {
-			loadContent(timelineData[0].id);
+			handleTimelineItemClick(timelineData[0].id);
 		}
 	});
 </script>
@@ -124,95 +136,113 @@
 		</p>
 	</div>
 
+	<!-- Experience Type Banners -->
+	{#if activeExperience}
+		<div class="experience-types mx-auto mb-8 flex max-w-4xl flex-col gap-2">
+			{#if activeExperience.company && getCompanyType(activeExperience.company, companyTypes) === 'startup'}
+				<div
+					class="startup-note rounded-lg border border-violet-200 bg-violet-50 p-4 dark:border-violet-800 dark:bg-violet-900/20"
+				>
+					<p class="text-base-content">
+						<span class="text-primary font-semibold">Startup Experience:</span> At
+						<span class="text-primary font-semibold">{activeExperience.company}</span>, I wore
+						multiple hats simultaneously, tackling diverse responsibilities and adapting to rapidly
+						changing needs.
+					</p>
+				</div>
+			{:else if activeExperience.company && getCompanyType(activeExperience.company, companyTypes) === 'consultant'}
+				<div
+					class="consultant-note rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-900/20"
+				>
+					<p class="text-base-content">
+						<span class="font-semibold text-blue-700">Consulting Work:</span> At
+						<span class="font-semibold text-blue-700">{activeExperience.company}</span>, I provided
+						specialized expertise to clients across various projects and industries.
+					</p>
+				</div>
+			{/if}
+		</div>
+	{/if}
+
 	{#if timelineData && timelineData.length > 0 && visible}
 		<div class="timeline-container mb-12 w-full overflow-x-auto pb-8">
 			<div class="timeline-track min-w-max px-8">
 				<div class="relative flex items-start">
-					<!-- Timeline items -->
-					<div class="relative flex w-full justify-between">
-						{#each timelineData as item, i (item.id)}
+					<div class="bg-base-300 absolute top-5 h-0.5 w-full"></div>
+
+					<div class="relative z-10 flex w-full justify-center md:justify-between">
+						{#each timelineData as item (item.id)}
 							<div class="mx-8 first:ml-0 last:mr-0">
-								<!-- Timeline Item -->
-								<div class="timeline-item flex flex-col items-center">
-									<!-- Date circle at the top -->
-									<div
-										class="date-circle z-10 mb-2 flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold
-										{activeItemId === item.id
-											? 'bg-violet-500 text-white'
-											: 'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-100'}"
-									>
-										{item.date}
-									</div>
-
-									<!-- Card container -->
-									<div class="card-container pt-2">
-										<button
-											type="button"
-											class="relative max-w-[280px] min-w-[220px] overflow-hidden rounded-lg p-4 text-left transition-all duration-200
-												{activeItemId === item.id
-												? 'border border-violet-300 bg-violet-50 shadow-md hover:bg-violet-100 dark:border-violet-700 dark:bg-violet-900/20 dark:hover:bg-violet-900/30'
-												: 'border border-gray-200 bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700'}"
-											onclick={() => handleTimelineItemClick(item.id)}
-											aria-pressed={activeItemId === item.id}
-											aria-label={`Select ${item.title}`}
-										>
-											<!-- Arrow indicator (inside card at bottom) -->
-											{#if activeItemId === item.id}
-												<div
-													class="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-violet-400 to-violet-500 dark:from-violet-600 dark:to-violet-400"
-												></div>
-											{/if}
-
-											<h3
-												class="mb-1 text-center text-lg font-semibold
-												{activeItemId === item.id
-													? 'text-violet-700 dark:text-violet-300'
-													: 'text-gray-900 dark:text-white'}"
-											>
-												{item.title}
-											</h3>
-
-											{#if item.company}
-												<p
-													class="mb-2 text-center text-sm font-medium text-gray-700 dark:text-gray-300"
-												>
-													{item.company}
-												</p>
-											{/if}
-
-											<p class="text-center text-xs text-gray-500 dark:text-gray-400">
-												{item.dateRange}
-											</p>
-										</button>
-									</div>
-								</div>
+								<HorizontalTimelineItem
+									{item}
+									{activeItemId}
+									{companyTypes}
+									{companyCounts}
+									on:select={handleItemSelect}
+								/>
 							</div>
 						{/each}
 					</div>
-
-					<!-- Timeline line that connects the circles -->
-					<div class="absolute top-5 h-0.5 w-full bg-gray-200 dark:bg-gray-700"></div>
 				</div>
 			</div>
 		</div>
 
 		<div
-			class="content-display mx-auto max-w-4xl rounded-lg border border-gray-200 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800"
+			class="content-display border-base-300 bg-base-200 text-base-content mx-auto max-w-4xl rounded-lg border p-6 shadow"
 		>
-			{#if ActiveComponent}
+			{#if activeExperience && activeExperience.isCompanyItem && activeExperience.roles?.length}
 				<div transition:fade={{ duration: 300 }}>
+					<CompanyRolesView company={activeExperience} on:selectRole={handleRoleSelect} />
+
+					{#if selectedRoleId && RoleComponent}
+						<div class="pt-6">
+							<div class="mb-4 flex items-center justify-between">
+								<div class="flex flex-grow items-center">
+									<div class="bg-base-300 mr-2 h-px flex-grow"></div>
+									<h3 class="text-base-content text-lg font-semibold">Role Details</h3>
+									<div class="bg-base-300 ml-2 h-px flex-grow"></div>
+								</div>
+								<button
+									class="bg-base-300 text-base-content ml-4 inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-gray-300"
+									on:click={closeRoleDetails}
+									aria-label="Close role details"
+								>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										class="h-4 w-4"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke="currentColor"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											stroke-width="2"
+											d="M6 18L18 6M6 6l12 12"
+										/>
+									</svg>
+								</button>
+							</div>
+							<div transition:fade={{ duration: 300 }} class="bg-base-200 text-base-content">
+								<RoleComponent />
+							</div>
+						</div>
+					{/if}
+				</div>
+			{:else if ActiveComponent}
+				<div transition:fade={{ duration: 300 }} class="bg-base-200 text-base-content">
 					<ActiveComponent />
 				</div>
 			{:else if activeItemId}
-				<p class="text-center text-gray-500 dark:text-gray-400">Loading content...</p>
+				<p class="text-center text-gray-500">Loading content...</p>
 			{:else}
-				<p class="text-center text-gray-500 dark:text-gray-400">
+				<p class="text-center text-gray-500">
 					Select an item from the timeline above to view details.
 				</p>
 			{/if}
 		</div>
 	{:else}
-		<p class="text-center text-gray-500 dark:text-gray-400">
+		<p class="text-center text-gray-500">
 			{workExperiences ? 'No experience data found.' : 'Loading work experiences...'}
 		</p>
 	{/if}
