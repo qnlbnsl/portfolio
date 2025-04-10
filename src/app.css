@@ -1,0 +1,81 @@
+@import 'tailwindcss';
+
+@plugin "@tailwindcss/typography";
+@plugin "daisyui";
+
+@plugin "daisyui/theme" {
+    name: "light";
+
+    --color-primary: #6366f1;
+    --color-secondary: #e5e7eb;
+    --color-accent: #6366f1;
+    --color-neutral: #e5e7eb;
+    --color-neutral-content: #1a1a1a;
+    --color-base-100: #f3f3f3;
+    --color-base-200: #ffffff;
+    --color-base-300: #D1D5DB;
+    --color-base-content: #1a1a1a;
+    --color-secondary-content: #1a1a1a;
+    --color-card-hover: #ede9fe; /* Light violet for hover */
+
+    /* Include HSL or other vars if needed */
+    --p: 241 73% 67%;
+    --s: 220 13% 90%;
+    --a: 241 73% 67%;
+    --n: 220 13% 90%;
+    --nc: 0 0% 10%;
+    --b1: 0 0% 95%;
+    --b2: 0 0% 100%;
+    --b3: 216 12% 84%;
+    --bc: 0 0% 10%;
+    --sc: 0 0% 10%;
+
+    --color-info: #3abff8;
+    --color-success: #36d399;
+    --color-warning: #fbbd23;
+    --color-error: #f87272;
+}
+
+@plugin "daisyui/theme" {
+    name: "dark";
+
+    --color-primary: #818cf8;
+    --color-secondary: #1f2937;
+    --color-accent: #818cf8;
+    --color-neutral: #374151;
+    --color-neutral-content: #f3f4f6;
+    --color-base-100: #121212;
+    --color-base-200: #1f2937;
+    --color-base-300: #374151;
+    --color-base-content: #f3f4f6;
+    --color-secondary-content: #f3f4f6;
+    --color-card-hover: #374151; /* Neutral/Slightly darker gray for dark hover */
+
+    /* Include HSL or other vars if needed */
+    --p: 236 86% 77%;
+    --s: 215 28% 17%;
+    --a: 236 86% 77%;
+    --n: 215 14% 27%;
+    --nc: 220 14% 95%;
+    --b1: 0 0% 7%;
+    --b2: 215 28% 17%;
+    --b3: 215 14% 27%;
+    --bc: 220 14% 95%;
+    --sc: 220 14% 95%;
+
+    --color-info: #3abff8;
+    --color-success: #36d399;
+    --color-warning: #fbbd23;
+    --color-error: #f87272;
+}
+
+
+/* Optional base styles using @layer etc can go here */
+
+/* --- REMOVE Manual Markdown Styles --- */
+/*
+.markdown-content h1 { ... }
+.markdown-content h2 { ... }
+...
+.markdown-content a:hover { ... }
+*/

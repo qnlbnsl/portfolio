@@ -1,0 +1,20 @@
+---
+title: 'Compliance/Security Officer'
+company: 'Immersive Tech, Inc.'
+location: 'Tampa, FL'
+duration: 'Jan 2022 - Present'
+shortDescription: 'Compliance/Security Officer at Immersive Tech, Inc.'
+startDate: '2022-01'
+endDate: ''
+type: startup
+technologies:
+  - SOC2
+  - HIPAA
+  - Security Auditing
+  - Risk Assessment
+---
+
+* Oversaw SOC2 and HIPAA compliance initiatives, ensuring all systems met regulatory requirements
+* Implemented comprehensive security policies and procedures
+* Conducted regular security audits and vulnerability assessments
+* Maintained perfect record with zero security incidents during tenure

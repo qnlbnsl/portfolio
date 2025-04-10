@@ -1,0 +1,23 @@
+---
+title: 'Software Developer'
+company: 'Immersive Tech, Inc.'
+location: 'Tampa, FL'
+duration: 'Jan 2020 - Present'
+shortDescription: 'Software Developer at Immersive Tech, Inc.'
+startDate: '2020-01'
+endDate: ''
+type: startup
+technologies:
+  - JavaScript
+  - TypeScript
+  - Go
+  - C++
+  - Python
+  - NoSQL
+  - Firebase
+---
+
+* Developed full-stack applications using JavaScript/TypeScript, Go, C++, and Python
+* Implemented NoSQL database solutions on Firebase for scalable data storage
+* Created responsive web interfaces for AR/VR control systems
+* Contributed to open-source projects related to immersive technologies

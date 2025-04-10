@@ -1,0 +1,21 @@
+---
+title: 'Network Security Engineer'
+company: 'Immersive Tech, Inc.'
+location: 'Tampa, FL'
+duration: 'Dec 2019 - Jan 2022'
+shortDescription: 'Network Security Engineer at Immersive Tech, Inc.'
+startDate: '2019-12'
+endDate: '2022-01'
+type: startup
+technologies:
+  - RADIUS
+  - SSO
+  - Network Security
+  - SOC2
+  - HIPAA
+---
+
+* Implemented RADIUS servers and SSO solutions for secure authentication
+* Created and enforced security policies for SOC2 Type II and HIPAA compliance
+* Designed and maintained secure network infrastructure
+* Conducted security training for all employees

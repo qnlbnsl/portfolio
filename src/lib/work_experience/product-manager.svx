@@ -1,0 +1,20 @@
+---
+title: 'Product Manager, Medoptic'
+company: 'Immersive Tech, Inc.'
+location: 'Tampa, FL'
+duration: 'Jan 2020 - Aug 2020'
+shortDescription: 'Product Manager, Medoptic at Immersive Tech, Inc.'
+startDate: '2020-01'
+endDate: '2020-08'
+type: startup
+technologies:
+  - Product Management
+  - FDA Compliance
+  - HIPAA
+  - User Research
+---
+
+* Led product development for Medoptic, ensuring FDA and HIPAA compliance
+* Designed cart system for remote medical streaming, improving usability in clinical settings
+* Gathered and prioritized user requirements from medical professionals
+* Coordinated with engineering team to implement feature roadmap

@@ -1,0 +1,46 @@
+---
+title: 'ALICE: Adaptive Linguistic Interpreter & Command Executor'
+shortDescription: 'NLP-driven system for processing general statements, questions, and executable tasks'
+categories:
+  - ai
+thumbnail: '/placeholder.svg?height=300&width=400'
+image: '/placeholder.svg?height=600&width=800'
+github: 'https://github.com/qnlbnsl/A.L.I.C.E'
+highlight: true # Example: Highlighting this project
+publishedDate: '2024-03-10' # Example Date
+technologies:
+  - LlamaIndex
+  - Qdrant
+  - RAG
+  - Mixtral 8x7b
+  - Python
+---
+
+## Abstract
+
+ALICE (Adaptive Linguistic Interpreter and Command Executor) is an advanced NLP system designed to understand and process natural language inputs ranging from general statements to executable commands. The system prioritizes privacy by performing all processing locally.
+
+## Technical Deep Dive
+
+### RAG Pipeline
+
+ALICE implements a sophisticated Retrieval-Augmented Generation (RAG) pipeline using LlamaIndex for document processing and Qdrant as the vector database. This allows the system to retrieve relevant information from its knowledge base to inform responses.
+
+```python
+from llama_index import VectorStoreIndex, SimpleDirectoryReader
+from llama_index.vector_stores import QdrantVectorStore
+
+documents = SimpleDirectoryReader("data").load_data()
+index = VectorStoreIndex.from_documents(documents)
+```
+
+### Local Model Execution
+
+To ensure privacy, ALICE runs the Mixtral 8x7b QMoE model locally. This approach eliminates the need to send user data to external services while still providing high-quality language understanding and generation capabilities.
+
+## Outcomes & Lessons Learned
+
+- Fully local processing ensures complete privacy of user data and queries
+- Successfully handles a wide range of natural language inputs with high accuracy
+- Extensible architecture allows for easy addition of new capabilities and knowledge domains
+- Open-source implementation encourages community contributions and improvements

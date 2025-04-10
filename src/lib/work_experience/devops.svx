@@ -1,0 +1,22 @@
+---
+title: 'DevOps Engineer'
+company: 'Immersive Tech, Inc.'
+location: 'Tampa, FL'
+duration: 'Jan 2022 - Present'
+shortDescription: 'DevOps Engineer at Immersive Tech, Inc.'
+startDate: '2022-01'
+endDate: ''
+type: startup
+technologies:
+  - Terraform
+  - AWS
+  - GCP
+  - GitHub Actions
+  - Docker
+  - Kubernetes
+---
+
+* Implemented Terraform-based infrastructure as code for all company systems
+* Led migration from AWS to GCP, resulting in annual cost savings of $50K
+* Established CI/CD automation with GitHub Actions, reducing deployment time by 70%
+* Designed and implemented scalable architecture for handling variable workloads
