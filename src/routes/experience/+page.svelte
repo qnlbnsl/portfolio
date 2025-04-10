@@ -140,9 +140,7 @@
 	{#if activeExperience}
 		<div class="experience-types mx-auto mb-8 flex max-w-4xl flex-col gap-2">
 			{#if activeExperience.company && getCompanyType(activeExperience.company, companyTypes) === 'startup'}
-				<div
-					class="startup-note rounded-lg border border-violet-200 bg-violet-50 p-4 dark:border-violet-800 dark:bg-violet-900/20"
-				>
+				<div class="startup-note bg-base-200 rounded-lg border border-violet-200 p-4">
 					<p class="text-base-content">
 						<span class="text-primary font-semibold">Startup Experience:</span> At
 						<span class="text-primary font-semibold">{activeExperience.company}</span>, I wore
@@ -151,9 +149,7 @@
 					</p>
 				</div>
 			{:else if activeExperience.company && getCompanyType(activeExperience.company, companyTypes) === 'consultant'}
-				<div
-					class="consultant-note rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-900/20"
-				>
+				<div class="consultant-note bg-base-200 rounded-lg border border-blue-200 p-4">
 					<p class="text-base-content">
 						<span class="font-semibold text-blue-700">Consulting Work:</span> At
 						<span class="font-semibold text-blue-700">{activeExperience.company}</span>, I provided
