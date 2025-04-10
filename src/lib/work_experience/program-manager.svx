@@ -2,10 +2,11 @@
 title: 'Program Manager, R&D'
 company: 'Immersive Tech, Inc.'
 location: 'Tampa, FL'
-duration: 'Dec 2019 - Present'
+duration: 'Aug 2020 - Present'
 shortDescription: 'Program Manager, R&D at Immersive Tech, Inc.'
-startDate: '2019-12'
+startDate: '2020-08'
 endDate: ''
+type: startup
 technologies:
   - Project Management
   - AR/VR

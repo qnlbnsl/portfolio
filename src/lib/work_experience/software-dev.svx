@@ -2,10 +2,11 @@
 title: 'Software Developer'
 company: 'Immersive Tech, Inc.'
 location: 'Tampa, FL'
-duration: 'Dec 2019 - Present'
+duration: 'Jan 2020 - Present'
 shortDescription: 'Software Developer at Immersive Tech, Inc.'
-startDate: '2019-12'
+startDate: '2020-01'
 endDate: ''
+type: startup
 technologies:
   - JavaScript
   - TypeScript

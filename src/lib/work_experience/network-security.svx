@@ -2,10 +2,11 @@
 title: 'Network Security Engineer'
 company: 'Immersive Tech, Inc.'
 location: 'Tampa, FL'
-duration: 'Dec 2019 - Present'
+duration: 'Dec 2019 - Jan 2022'
 shortDescription: 'Network Security Engineer at Immersive Tech, Inc.'
 startDate: '2019-12'
-endDate: ''
+endDate: '2022-01'
+type: startup
 technologies:
   - RADIUS
   - SSO
