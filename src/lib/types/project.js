@@ -16,7 +16,7 @@
  */
 
 /**
- * @typedef {import('svelte').ComponentType} ComponentType
+ * @typedef {import('svelte').Component} ComponentType
  */
 
 /**
