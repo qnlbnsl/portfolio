@@ -1,8 +1,5 @@
 <script>
 	export let data;
-	// data.content should contain the compiled .svx component
-	// console.log('Data prop in +page.svelte:', data); // Log the whole data object
-	// console.log('Content from data:', data.content); // Log the specific content part
 </script>
 
 <!-- Wrap the component in a div with the 'prose' class for typography styling -->
