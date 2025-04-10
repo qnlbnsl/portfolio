@@ -8,6 +8,7 @@
  * @property {string} startDate
  * @property {string} endDate
  * @property {string[]} [technologies] - Optional list of technologies
+ * @property {string} [type] - Optional type of work experience
  */
 
 /**
