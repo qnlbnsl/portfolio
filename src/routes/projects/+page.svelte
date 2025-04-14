@@ -79,6 +79,7 @@
 					title={project.title}
 					description={project.shortDescription}
 					link={`/projects/${project.id}`}
+					extraClasses="bg-base-200"
 				/>
 			{/each}
 		</div>

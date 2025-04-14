@@ -1,187 +1,183 @@
 <script>
-  import { onMount } from "svelte";
-  import { fade, fly } from "svelte/transition";
+	import {
+		EnvelopeOpenOutline,
+		GithubSolid,
+		GlobeOutline,
+		LinkedinSolid,
+		MapPinAltOutline,
+		PhoneOutline
+	} from 'flowbite-svelte-icons';
+	import { onMount } from 'svelte';
+	import { fade, fly } from 'svelte/transition';
+	import { enhance } from '$app/forms';
 
-  let visible = false;
-  let name = "";
-  let email = "";
-  let message = "";
-  let isSubmitting = false;
-  /**
-   * @type {{ success: any; message: any; } | null}
-   */
-  let submitStatus = null;
+	export let form;
 
-  onMount(() => {
-    visible = true;
-  });
+	let visible = false;
 
-  /**
-   * @param {{ preventDefault: () => void; }} event
-   */
-  async function handleSubmit(event) {
-    event.preventDefault();
-    isSubmitting = true;
-
-    try {
-      // Simulate form submission
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      // In a real implementation, you would send the form data to a server
-      // For example with SvelteKit's form actions:
-      // const formData = new FormData(event.target);
-      // const response = await fetch('/api/contact', {
-      //   method: 'POST',
-      //   body: formData
-      // });
-
-      submitStatus = {
-        success: true,
-        message: "Your message has been sent successfully! I will get back to you soon.",
-      };
-
-      // Reset form
-      name = "";
-      email = "";
-      message = "";
-    } catch (error) {
-      submitStatus = {
-        success: false,
-        message: "There was an error sending your message. Please try again later.",
-      };
-    } finally {
-      isSubmitting = false;
-
-      // Clear status after 5 seconds
-      setTimeout(() => {
-        submitStatus = null;
-      }, 5000);
-    }
-  }
+	onMount(() => {
+		visible = true;
+	});
 </script>
 
 <svelte:head>
-  <title>Contact | Kunal Bansal</title>
-  <meta
-    name="description"
-    content="Get in touch with Kunal Bansal for collaborations, projects, or inquiries related to AR/VR, healthcare tech, and AI."
-  />
+	<title>Contact | Kunal Bansal</title>
+	<meta
+		name="description"
+		content="Get in touch with Kunal Bansal for collaborations, projects, or inquiries related to AR/VR, healthcare tech, and AI."
+	/>
 </svelte:head>
 
 {#if visible}
-  <section class="contact py-12 md:py-16 px-4" in:fade={{ duration: 800 }}>
-    <div class="contact-header text-center mb-12 max-w-2xl mx-auto" in:fly={{ y: 50, duration: 800 }}>
-      <h1 class="font-secondary text-4xl md:text-5xl mb-4">Get in Touch</h1>
-      <p class="text-lg md:text-xl text-base-content/80">
-        Have a project in mind or want to discuss potential collaborations? I'd love to hear from you!
-      </p>
-    </div>
+	<section class="contact px-4 py-12 md:py-16" in:fade={{ duration: 800 }}>
+		<div
+			class="contact-header mx-auto mb-12 max-w-2xl text-center"
+			in:fly={{ y: 50, duration: 800 }}
+		>
+			<h1 class="font-secondary mb-4 text-4xl md:text-5xl">Get in Touch</h1>
+			<p class="text-base-content/80 text-lg md:text-xl">
+				Have a project in mind or want to discuss potential collaborations? I'd love to hear from
+				you!
+			</p>
+		</div>
 
-    <div class="contact-container grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 max-w-screen-lg mx-auto">
-      <div class="contact-info" in:fly={{ x: -50, duration: 800, delay: 200 }}>
-        <div class="info-card bg-secondary text-secondary-content rounded-lg p-6 md:p-8 h-full flex flex-col">
-          <h2 class="text-2xl md:text-3xl font-semibold mb-6">Contact Information</h2>
-          <div class="info-item flex items-center gap-4 mb-5">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-accent flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-            </svg>
-            <p class="m-0">813-573-9075</p>
-          </div>
-          <div class="info-item flex items-center gap-4 mb-5">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-accent flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-              <polyline points="22,6 12,13 2,6"></polyline>
-            </svg>
-            <p class="m-0">qnlbnsl@gmail.com</p>
-          </div>
-          <div class="info-item flex items-center gap-4 mb-5">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-accent flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-              <circle cx="12" cy="10" r="3"></circle>
-            </svg>
-            <p class="m-0">Alabama, USA</p>
-          </div>
+		<div
+			class="contact-container mx-auto grid max-w-screen-lg grid-cols-1 gap-8 md:grid-cols-2 md:gap-12"
+		>
+			<div class="contact-info" in:fly={{ x: -50, duration: 800, delay: 200 }}>
+				<div
+					class="info-card bg-secondary text-secondary-content flex h-full flex-col rounded-lg p-6 md:p-8"
+				>
+					<h2 class="mb-6 text-2xl font-semibold md:text-3xl">Contact Information</h2>
+					<div class="info-item mb-5 flex items-center gap-4">
+						<PhoneOutline class="text-accent h-6 w-6" />
+						<p class="m-0">415-966-7699</p>
+					</div>
+					<div class="info-item mb-5 flex items-center gap-4">
+						<EnvelopeOpenOutline class="text-accent h-6 w-6" />
+						<p class="m-0">contact@kunalbans.al</p>
+					</div>
+					<div class="info-item mb-5 flex items-center gap-4">
+						<MapPinAltOutline class="text-accent h-6 w-6" />
+						<p class="m-0">Alabama, USA</p>
+					</div>
 
-          <div class="social-links flex flex-wrap gap-3 my-8">
-            <a href="https://github.com/qnlbnsl" target="_blank" rel="noopener noreferrer" class="social-link btn btn-outline btn-sm rounded-full normal-case gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-              </svg>
-              GitHub
-            </a>
-            <a href="https://linkedin.com/in/qnlbnsl" target="_blank" rel="noopener noreferrer" class="social-link btn btn-outline btn-sm rounded-full normal-case gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                <rect x="2" y="9" width="4" height="12"></rect>
-                <circle cx="4" cy="4" r="2"></circle>
-              </svg>
-              LinkedIn
-            </a>
-            <a href="https://kunalbans.al" target="_blank" rel="noopener noreferrer" class="social-link btn btn-outline btn-sm rounded-full normal-case gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="2" y1="12" x2="22" y2="12"></line>
-                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-              </svg>
-              Website
-            </a>
-          </div>
+					<div class="social-links my-8 flex flex-wrap gap-3">
+						<a
+							href="https://github.com/qnlbnsl"
+							target="_blank"
+							rel="noopener noreferrer"
+							class="social-link btn btn-outline btn-sm gap-2 rounded-full normal-case"
+						>
+							<GithubSolid class="h-5 w-5" />
+							GitHub
+						</a>
+						<a
+							href="https://linkedin.com/in/qnlbnsl"
+							target="_blank"
+							rel="noopener noreferrer"
+							class="social-link btn btn-outline btn-sm gap-2 rounded-full normal-case"
+						>
+							<LinkedinSolid class="h-5 w-5" />
+							LinkedIn
+						</a>
+						<a
+							href="https://kunalbans.al"
+							target="_blank"
+							rel="noopener noreferrer"
+							class="social-link btn btn-outline btn-sm gap-2 rounded-full normal-case"
+						>
+							<GlobeOutline class="h-5 w-5" />
+							Website
+						</a>
+					</div>
+				</div>
+			</div>
 
-          <!-- <div class="consulting-info">
-            <h3>AAKU Consulting</h3>
-            <p>
-              We solve complex problems around AR/VR, healthcare tech, and AI. Let's talk about how we can help your organization scale
-              globally!
-            </p>
-          </div> -->
-        </div>
-      </div>
+			<div class="contact-form" in:fly={{ x: 50, duration: 800, delay: 200 }}>
+				{#if form?.success}
+					<div class="status-message alert alert-success mb-6 shadow-lg" transition:fade>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="h-6 w-6 shrink-0 stroke-current"
+							fill="none"
+							viewBox="0 0 24 24"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+							/>
+						</svg>
+						<span>{form.message}</span>
+					</div>
+				{/if}
 
-      <div class="contact-form" in:fly={{ x: 50, duration: 800, delay: 200 }}>
-        <form on:submit={handleSubmit} class="flex flex-col gap-6">
-          <div class="form-group form-control w-full">
-            <label for="name" class="label">
-              <span class="label-text">Name</span>
-            </label>
-            <input type="text" id="name" bind:value={name} required disabled={isSubmitting} class="input input-bordered w-full" />
-          </div>
+				{#if form?.error}
+					<div class="status-message alert alert-error mb-6 shadow-lg" transition:fade>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="h-6 w-6 shrink-0 stroke-current"
+							fill="none"
+							viewBox="0 0 24 24"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+							/>
+						</svg>
+						<span>{form.error}</span>
+					</div>
+				{/if}
 
-          <div class="form-group form-control w-full">
-            <label for="email" class="label">
-              <span class="label-text">Email</span>
-            </label>
-            <input type="email" id="email" bind:value={email} required disabled={isSubmitting} class="input input-bordered w-full" />
-          </div>
+				<form method="POST" use:enhance class="flex flex-col gap-6">
+					<div class="form-group form-control w-full">
+						<label for="name" class="label">
+							<span class="label-text">Name</span>
+						</label>
+						<input
+							type="text"
+							id="name"
+							name="name"
+							value={form?.name ?? ''}
+							required
+							class="input input-bordered w-full"
+						/>
+					</div>
 
-          <div class="form-group form-control w-full">
-            <label for="message" class="label">
-              <span class="label-text">Message</span>
-            </label>
-            <textarea id="message" bind:value={message} rows="6" required disabled={isSubmitting} class="textarea textarea-bordered w-full h-36"></textarea>
-          </div>
+					<div class="form-group form-control w-full">
+						<label for="email" class="label">
+							<span class="label-text">Email</span>
+						</label>
+						<input
+							type="email"
+							id="email"
+							name="email"
+							value={form?.email ?? ''}
+							required
+							class="input input-bordered w-full"
+						/>
+					</div>
 
-          <button type="submit" class="submit-button btn btn-accent w-full" disabled={isSubmitting}>
-            {#if isSubmitting}
-              <span class="loading loading-spinner loading-sm"></span> Sending...
-            {:else}
-              Send Message
-            {/if}
-          </button>
+					<div class="form-group form-control w-full">
+						<label for="message" class="label">
+							<span class="label-text">Message</span>
+						</label>
+						<textarea
+							id="message"
+							name="message"
+							rows="6"
+							required
+							class="textarea textarea-bordered h-36 w-full">{form?.message ?? ''}</textarea
+						>
+					</div>
 
-          {#if submitStatus}
-            <div class="status-message alert {submitStatus.success ? 'alert-success' : 'alert-error'} mt-4 shadow-lg" transition:fade>
-              <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-                {#if submitStatus.success}
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                {:else}
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                {/if}
-              </svg>
-              <span>{submitStatus.message}</span>
-            </div>
-          {/if}
-        </form>
-      </div>
-    </div>
-  </section>
+					<button type="submit" class="submit-button btn btn-accent w-full"> Send Message </button>
+				</form>
+			</div>
+		</div>
+	</section>
 {/if}
