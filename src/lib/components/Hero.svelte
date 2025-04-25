@@ -1,15 +1,33 @@
-<script>
+<script lang="ts">
 	import { fade, fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
 	import { theme } from '$lib/stores/theme.js';
+	import { useMotionValue } from 'svelte-motion';
+
+	import EvervaultCard from './EvervaultCard.svelte';
+
+	let heroMouseX = useMotionValue(0);
+	let heroMouseY = useMotionValue(0);
 
 	let visible = false;
 	onMount(() => {
 		visible = true;
 	});
+
+	function handleHeroMouseMove(event: MouseEvent) {
+		const target = event.currentTarget as HTMLElement;
+		if (!target) return;
+		const rect = target.getBoundingClientRect();
+		heroMouseX.set(event.clientX - rect.left);
+		heroMouseY.set(event.clientY - rect.top);
+	}
 </script>
 
-<section class="hero relative flex min-h-[90vh] items-center justify-center overflow-hidden">
+<section
+	class="hero relative flex min-h-[90vh] items-center justify-center overflow-hidden"
+	on:mousemove={handleHeroMouseMove}
+	role="group"
+>
 	{#if visible}
 		<div
 			class="hero-background from-secondary to-base-100 absolute inset-0 z-[-2] bg-gradient-to-br"
@@ -20,6 +38,9 @@
 		<div
 			class="hero-content z-10 mx-auto grid w-full max-w-screen-xl grid-cols-1 gap-8 p-4 md:grid-cols-2 md:p-8"
 		>
+			<div class="absolute inset-0 z-[-1]">
+				<EvervaultCard parentMouseX={heroMouseX} parentMouseY={heroMouseY} />
+			</div>
 			<div
 				class="hero-image-container relative order-1 flex items-center justify-center md:order-2"
 				in:fade={{ duration: 1200, delay: 500 }}
@@ -73,7 +94,7 @@
 					</a>
 					<a
 						href="/projects"
-						class="cta-button btn btn-outline btn-accent no-animation md:btn-wide flex-1 md:flex-none"
+						class="cta-button btn btn-accent no-animation md:btn-wide flex-1 md:flex-none"
 					>
 						View Projects
 					</a>

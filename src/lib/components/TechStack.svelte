@@ -1,36 +1,98 @@
-<script>
-	/**
-	 * @typedef {Object} Technology
-	 * @property {string} name - The name of the technology
-	 * @property {string} [icon] - Optional icon for the technology
-	 * @property {string} [category] - Optional category (e.g., Frontend, Backend, DevOps)
-	 */
+<script lang="ts">
+	import { Motion, useTransform, AnimatePresence, useMotionValue, useSpring } from 'svelte-motion';
+	import { theme } from '$lib/stores/theme'; // Assuming this path and store name
+	import { browser } from '$app/environment'; // Import browser
+	import { type TechStack } from '$lib/data/tech_stack';
 
-	/** @type {{technologies: Technology[]}} */
-	let { technologies } = $props();
+	const { items } = $props<{ items: TechStack[] }>();
 
-	// TODO: Add logic to potentially group technologies by category
+	const basedir = '/logos/';
+	let hoveredIndex = $state<number>(0); // 0 is not hovered
+	const springConfig = { stiffness: 100, damping: 5 };
+	const x = useMotionValue(0); // going to set this value on mouse move
+	// rotate the tooltip
+	const rotate = useSpring(useTransform(x, [-100, 100], [-45, 45]), springConfig);
+	// translate the tooltip
+	const translateX = useSpring(useTransform(x, [-100, 100], [-50, 50]), springConfig);
+	const handleMouseMove = (event: MouseEvent) => {
+		// @ts-ignore
+		const halfWidth = event.target?.offsetWidth / 2;
+		x.set(event.offsetX - halfWidth); // set the x value, which is then used in transform and rotate
+	};
 </script>
 
-<section class="tech-stack bg-secondary px-4 py-16 md:py-20">
-	<div class="tech-stack-content mx-auto max-w-[800px]">
-		<h2 class="font-secondary mb-10 text-center text-3xl md:mb-12 md:text-4xl">
-			Technologies I Use
-		</h2>
-		<div
-			class="tech-grid grid grid-cols-2 gap-6 text-center sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
+<section
+	class="hero relative flex min-h-[30vh] flex-col items-center justify-center gap-y-8 overflow-hidden p-8"
+>
+	<div class="hero-background from-secondary to-base-100 absolute inset-0 z-[-2]"></div>
+
+	<div class="flex flex-col items-center">
+		<h2 class="font-secondary mb-12 text-center text-3xl md:text-4xl">Tech Stack</h2>
+		<p
+			class="mb-4 text-center text-base leading-relaxed md:mb-6 md:text-left md:text-lg md:leading-loose"
 		>
-			{#each technologies as tech}
-				<div
-					class="tech-item hover:bg-base-100/10 flex flex-col items-center rounded-lg p-4 transition-colors duration-300"
-				>
-					<!-- TODO: Add icon rendering if available -->
-					<span class="text-sm md:text-base">{tech.name}</span>
-				</div>
-			{:else}
-				<p>Technologies data is not available.</p>
-			{/each}
-		</div>
-		<!-- TODO: Add potential category filtering or more sophisticated display -->
+			These are the technologies I've used in my projects and work.
+		</p>
+	</div>
+	<div class="group grid grid-cols-4 place-items-center gap-4 md:flex md:flex-row md:gap-0">
+		{#each items as item, idx (item.name)}
+			<div
+				class="relative md:m-2"
+				onmouseenter={() => (hoveredIndex = item.id)}
+				onmouseleave={() => (hoveredIndex = 0)}
+				role="tooltip"
+			>
+				<AnimatePresence show={true}>
+					{#if hoveredIndex === item.id}
+						<Motion
+							let:motion
+							initial={{ opacity: 0, y: 20, scale: 0.6 }}
+							animate={{
+								opacity: 1,
+								y: 0,
+								scale: 1,
+								transition: {
+									type: 'spring',
+									stiffness: 260,
+									damping: 10
+								}
+							}}
+							exit={{ opacity: 0, y: 20, scale: 0.6 }}
+							style={{
+								translateX: translateX,
+								rotate: rotate,
+								whiteSpace: 'nowrap'
+							}}
+						>
+							<div
+								use:motion
+								class="absolute -top-16 left-1/2 z-50 flex -translate-x-1/2 flex-col items-center justify-center rounded-md bg-black px-4 py-2 text-xs shadow-xl"
+							>
+								<div
+									class="absolute inset-x-10 -bottom-px z-30 h-px w-[20%] bg-gradient-to-r from-transparent via-emerald-500 to-transparent"
+								></div>
+								<div
+									class="absolute -bottom-px left-10 z-30 h-px w-[40%] bg-gradient-to-r from-transparent via-sky-500 to-transparent"
+								></div>
+								<div class="relative z-30 text-base font-bold whitespace-nowrap text-white">
+									{item.name}
+								</div>
+								<div class="text-xs whitespace-nowrap text-white">{item.description}</div>
+							</div>
+						</Motion>
+					{/if}
+				</AnimatePresence>
+				{#if browser}
+					<img
+						onmousemove={handleMouseMove}
+						height={100}
+						width={100}
+						src={$theme === 'dark' && item.iconDark ? basedir + item.iconDark : basedir + item.icon}
+						alt={item.name}
+						class="relative !m-0 h-14 w-14 rounded-full border-2 border-white object-cover object-top !p-0 transition duration-500 group-hover:z-30 group-hover:scale-105"
+					/>
+				{/if}
+			</div>
+		{/each}
 	</div>
 </section>
