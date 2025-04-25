@@ -11,27 +11,83 @@
 	let preGeneratedStrings: string[] = [];
 	let currentStringIndex = 0;
 	const numStrings = 10;
-	const stringLength = 15000;
+	const baseStringLength = 2000; // Length of the base random string
 
-	onMount(() => {
-		for (let i = 0; i < numStrings; i++) {
-			preGeneratedStrings.push(generateRandomString(stringLength));
+	// Variables to store dimensions
+	let width = 0;
+	let height = 0;
+	let calculatedStringLength = 0; // Store the calculated length
+	let lastWidth = 0; // Store the last width used for generation
+	let lastHeight = 0; // Store the last height used for generation
+
+	// Regenerate strings when dimensions are known and change
+	$: {
+		if (width > 0 && height > 0) {
+			// Only recalculate if dimensions have actually changed
+			if (width !== lastWidth || height !== lastHeight) {
+				// Estimate character size
+				const charWidthEstimate = 7.2;
+				const charHeightEstimate = 16;
+
+				const charsPerWidth = Math.ceil(width / charWidthEstimate);
+				const linesPerHeight = Math.ceil(height / charHeightEstimate);
+
+				// Calculate total characters needed (with buffer)
+				calculatedStringLength = Math.ceil(charsPerWidth * linesPerHeight * 1.2);
+				// console.log(
+				// 	'Regenerating strings for dimensions:',
+				// 	width,
+				// 	height,
+				// 	'-> total chars:',
+				// 	calculatedStringLength
+				// );
+
+				// Calculate how many times the base string needs to be repeated
+				const repeatCount = Math.max(1, Math.ceil(calculatedStringLength / baseStringLength));
+
+				preGeneratedStrings = [];
+				for (let i = 0; i < numStrings; i++) {
+					// Generate a unique base string
+					const baseString = generateRandomString(baseStringLength);
+					// Repeat the base string to fill the required length
+					preGeneratedStrings.push(
+						baseString.repeat(repeatCount).substring(0, calculatedStringLength)
+					);
+				}
+
+				// Set initial string
+				if (preGeneratedStrings.length > 0) {
+					randomString = preGeneratedStrings[0];
+					currentStringIndex = 0;
+				}
+
+				// Update last known dimensions
+				lastWidth = width;
+				lastHeight = height;
+			}
 		}
-		randomString = preGeneratedStrings[0];
-	});
+	}
+
+	// Removed onMount for string generation as it's handled reactively now
 
 	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 	const generateRandomString = (length: number) => {
+		// Ensure length is at least 1 to avoid errors
+		length = Math.max(1, length);
 		let result = '';
+		const charactersLength = characters.length;
 		for (let i = 0; i < length; i++) {
-			result += characters.charAt(Math.floor(Math.random() * characters.length));
+			result += characters.charAt(Math.floor(Math.random() * charactersLength));
 		}
 		return result;
 	};
 
 	const cycleRandomString = () => {
-		currentStringIndex = (currentStringIndex + 1) % preGeneratedStrings.length;
-		randomString = preGeneratedStrings[currentStringIndex];
+		// Only cycle if strings have been generated
+		if (preGeneratedStrings.length > 0) {
+			currentStringIndex = (currentStringIndex + 1) % preGeneratedStrings.length;
+			randomString = preGeneratedStrings[currentStringIndex];
+		}
 	};
 
 	let maskImage = useMotionTemplate`radial-gradient(250px at ${parentMouseX}px ${parentMouseY}px, white, transparent)`;
@@ -47,6 +103,8 @@
 </script>
 
 <div
+	bind:clientWidth={width}
+	bind:clientHeight={height}
 	class={cn(
 		'relative flex aspect-square h-full w-full items-center justify-center bg-transparent p-0.5',
 		className

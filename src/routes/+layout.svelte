@@ -35,23 +35,10 @@
 	});
 </script>
 
-<div class="app">
+<div class="app flex min-h-screen flex-col">
 	<Navbar />
-	<main>
+	<main class="mx-auto w-full max-w-[1280px] flex-1">
 		<slot />
 	</main>
 	<Footer />
 </div>
-
-<style>
-	.app {
-		display: flex;
-		flex-direction: column;
-		min-height: 100vh;
-	}
-
-	main {
-		flex: 1;
-		width: 100%;
-	}
-</style>
