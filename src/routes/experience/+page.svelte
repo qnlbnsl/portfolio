@@ -74,11 +74,11 @@
 	}
 
 	/**
-	 * Handle the select event from a timeline item component
-	 * @param {CustomEvent<string>} event - Event with item ID
+	 * Handle the select prop callback from a timeline item component
+	 * @param {string} itemId - The ID passed from the selected item
 	 */
-	function handleItemSelect(event) {
-		handleTimelineItemClick(event.detail);
+	function handleItemSelect(itemId) {
+		handleTimelineItemClick(itemId);
 	}
 
 	/**
@@ -174,7 +174,7 @@
 									{activeItemId}
 									{companyTypes}
 									{companyCounts}
-									on:select={handleItemSelect}
+									onSelect={handleItemSelect}
 								/>
 							</div>
 						{/each}
@@ -200,7 +200,7 @@
 								</div>
 								<button
 									class="bg-base-300 text-base-content ml-4 inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-gray-300"
-									on:click={closeRoleDetails}
+									onclick={closeRoleDetails}
 									aria-label="Close role details"
 								>
 									<svg
