@@ -3,7 +3,8 @@
 	import Narrative from '$lib/components/Narrative.svelte';
 	import Highlights from '$lib/components/Highlights.svelte';
 	import { skills } from '$lib/data/skills';
-
+	import { techStack } from '$lib/data/tech_stack';
+	import TechStackComponent from '$lib/components/TechStack.svelte';
 	/** @type {import('./$types').PageData} */
 	export let data;
 
@@ -21,4 +22,5 @@
 
 <Hero />
 <Narrative {skills} />
+<TechStackComponent items={techStack} />
 <Highlights {highlights} />
