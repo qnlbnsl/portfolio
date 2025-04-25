@@ -17,6 +17,7 @@
     --color-base-content: #1a1a1a;
     --color-secondary-content: #1a1a1a;
     --color-card-hover: #ede9fe; /* Light violet for hover */
+    --color-accent-content: #121212;
 
     /* Include HSL or other vars if needed */
     --p: 241 73% 67%;
@@ -50,6 +51,7 @@
     --color-base-content: #f3f4f6;
     --color-secondary-content: #f3f4f6;
     --color-card-hover: #374151; /* Neutral/Slightly darker gray for dark hover */
+    --color-accent-content: #121212;
 
     /* Include HSL or other vars if needed */
     --p: 236 86% 77%;
