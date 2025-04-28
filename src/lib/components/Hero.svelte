@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { fade, fly } from 'svelte/transition';
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import { theme } from '$lib/stores/theme.js';
 	import { useMotionValue } from 'svelte-motion';
 
@@ -10,8 +10,23 @@
 	let heroMouseY = useMotionValue(0);
 
 	let visible = false;
+	let isDesktop = false; // Default to mobile
+
 	onMount(() => {
 		visible = true;
+
+		const mediaQuery = window.matchMedia('(min-width: 768px)');
+		const updateDesktopStatus = () => {
+			isDesktop = mediaQuery.matches;
+		};
+
+		updateDesktopStatus(); // Check initial status
+		mediaQuery.addEventListener('change', updateDesktopStatus);
+
+		// Cleanup listener on component destroy
+		return () => {
+			mediaQuery.removeEventListener('change', updateDesktopStatus);
+		};
 	});
 
 	function handleHeroMouseMove(event: MouseEvent) {
@@ -24,32 +39,32 @@
 </script>
 
 <section
-	class="hero relative flex min-h-[90vh] items-center justify-center overflow-hidden"
+	class="relative flex min-h-[90vh] items-center justify-center overflow-hidden"
 	onmousemove={handleHeroMouseMove}
 	role="group"
 >
 	{#if visible}
-		<div
-			class="hero-background from-secondary to-base-100 absolute inset-0 z-[-2] bg-gradient-to-br"
-		></div>
-		<div
-			class="gradient-overlay absolute inset-0 z-[-1] bg-[radial-gradient(circle_at_70%_50%,rgba(var(--accent-rgb),0.08)_0%,transparent_70%)]"
-		></div>
-		<div
-			class="hero-content z-10 mx-auto grid w-full max-w-screen-xl grid-cols-1 gap-8 p-4 md:grid-cols-2 md:p-8"
-		>
-			<div class="absolute inset-0 z-[-1]">
-				<EvervaultCard parentMouseX={heroMouseX} parentMouseY={heroMouseY} />
-			</div>
+		<div class="from-secondary to-base-100 absolute inset-0 z-[-2] bg-gradient-to-br"></div>
+		{#if isDesktop}
 			<div
-				class="hero-image-container relative order-1 flex items-center justify-center md:order-2"
+				class="gradient-overlay absolute inset-0 z-[-1] bg-[radial-gradient(circle_at_70%_50%,rgba(var(--accent-rgb),0.08)_0%,transparent_70%)]"
+			></div>
+		{/if}
+		<div
+			class="z-10 mx-auto grid w-full max-w-screen-xl grid-cols-1 gap-8 p-4 md:grid-cols-2 md:p-8"
+		>
+			{#if isDesktop}
+				<div class="absolute inset-0 z-[-1]">
+					<EvervaultCard parentMouseX={heroMouseX} parentMouseY={heroMouseY} />
+				</div>
+			{/if}
+			<div
+				class="pointer-events-none relative order-1 flex items-center justify-center md:order-2"
 				in:fade={{ duration: 1200, delay: 500 }}
 			>
-				<div
-					class="hero-image-wrapper relative mx-auto aspect-square w-full max-w-[250px] md:max-w-[350px]"
-				>
+				<div class="relative mx-auto aspect-square w-full max-w-[250px] md:max-w-[350px]">
 					<div
-						class="blob-shape from-accent to-accent-focus animate-blob absolute top-[-5%] left-[-5%] h-[110%] w-[110%] rounded-[60%_40%_30%_70%_/_60%_30%_70%_40%] bg-gradient-to-br opacity-20"
+						class="blob-shape from-accent to-accent-focus animate-blob absolute top-[-5%] left-[-5%] h-[110%] w-[110%] rounded-[60%_40%_30%_70%_/_60%_30%_70%_40%] bg-gradient-to-br opacity-40"
 					></div>
 					<div
 						class="image-frame relative h-full w-full overflow-hidden rounded-3xl shadow-xl will-change-transform backface-hidden"
@@ -57,13 +72,13 @@
 						<img
 							src={$theme === 'dark' ? '/images/profile_dark.png' : '/images/profile_light.png'}
 							alt="Kunal Bansal"
-							class="h-full w-full object-cover transition-transform duration-500 ease-out hover:scale-105"
+							class="pointer-events-auto h-full w-full object-cover transition-transform duration-500 ease-out hover:scale-105"
 						/>
 					</div>
 				</div>
 			</div>
 			<div
-				class="hero-text order-2 flex flex-col justify-center p-4 text-center md:order-1 md:p-0 md:text-left"
+				class="bg-base-100/50 pointer-events-none order-2 flex flex-col justify-center rounded-xl p-4 text-center md:order-1 md:p-5 md:text-left"
 				in:fade={{ duration: 1000, delay: 300 }}
 			>
 				<h1
@@ -88,13 +103,13 @@
 				>
 					<button
 						onclick={() => (window.location.href = '/contact')}
-						class="cta-button btn btn-primary no-animation md:btn-wide flex-1 md:flex-none"
+						class="cta-button btn btn-primary no-animation md:btn-wide pointer-events-auto flex-1 md:flex-none"
 					>
 						Let's Collaborate
 					</button>
 					<button
 						onclick={() => (window.location.href = '/projects')}
-						class="cta-button btn btn-primary no-animation md:btn-wide flex-1 md:flex-none"
+						class="cta-button btn btn-primary no-animation md:btn-wide pointer-events-auto flex-1 md:flex-none"
 					>
 						View Projects
 					</button>

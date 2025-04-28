@@ -22,9 +22,12 @@
 </script>
 
 <section
-	class="hero relative flex min-h-[30vh] flex-col items-center justify-center gap-y-8 overflow-hidden p-8"
+	class="hero relative flex min-h-[30vh] flex-col items-center justify-center gap-y-8 overflow-hidden border-t-2 border-white/20 p-8"
 >
-	<div class="hero-background from-secondary to-base-100 absolute inset-0 z-[-2]"></div>
+	<div class="from-secondary to-base-100 absolute inset-0 z-[-2] bg-gradient-to-br"></div>
+	<div
+		class="gradient-overlay absolute inset-0 z-[-1] bg-[radial-gradient(circle_at_70%_50%,rgba(var(--accent-rgb),0.08)_0%,transparent_70%)]"
+	></div>
 
 	<div class="flex flex-col items-center">
 		<h2 class="font-secondary mb-12 text-center text-3xl md:text-4xl">Tech Stack</h2>
@@ -89,7 +92,7 @@
 						width={100}
 						src={$theme === 'dark' && item.iconDark ? basedir + item.iconDark : basedir + item.icon}
 						alt={item.name}
-						class="relative !m-0 h-14 w-14 rounded-full border-2 border-white object-cover object-top !p-0 transition duration-500 group-hover:z-30 group-hover:scale-105"
+						class="relative !m-0 h-14 w-14 rounded-full object-cover object-top !p-0 transition duration-500 group-hover:z-30 group-hover:scale-105"
 					/>
 				{/if}
 			</div>
