@@ -98,7 +98,7 @@
 					and AI.
 				</p>
 				<div
-					class="cta-container pointer-events-auto flex flex-wrap justify-center gap-4 md:justify-start"
+					class="cta-container flex flex-wrap justify-center gap-4 md:justify-start"
 					in:fly={{ y: 20, duration: 800, delay: 1300 }}
 				>
 					<button
