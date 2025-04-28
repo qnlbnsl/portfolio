@@ -14,7 +14,7 @@
 	let { highlights } = $props();
 </script>
 
-<section class="highlights bg-secondary px-4 py-16 md:py-20">
+<section class="highlights bg-secondary border-t-2 border-white/20 px-4 py-16 md:py-20">
 	<h2 class="font-secondary mb-12 text-center text-3xl md:text-4xl">Highlighted Work</h2>
 	<div
 		class="highlights-grid mx-auto grid max-w-screen-xl grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
