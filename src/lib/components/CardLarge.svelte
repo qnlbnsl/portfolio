@@ -11,7 +11,7 @@
 		<img
 			src={image || '/placeholder.svg'}
 			alt={title}
-			class="border-base-300/75 h-full w-full border-b-5 object-cover transition-transform duration-500 ease-in-out md:hover:scale-105"
+			class="border-base-300/75 h-full w-full border-r-5 object-cover transition-transform duration-500 ease-in-out md:border-r-0 md:border-b-5 md:hover:scale-105"
 		/>
 	</div>
 	<div class="highlight-content flex flex-grow flex-col p-3 sm:p-4 md:p-6">
