@@ -25,7 +25,7 @@
 				title={highlight.title}
 				description={highlight.description}
 				link={highlight.link}
-				extraClasses="bg-base-300"
+				extraClasses="bg-base-200"
 			/>
 		{/each}
 	</div>

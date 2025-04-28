@@ -25,7 +25,7 @@
 
 <section
 	class="hero relative flex min-h-[90vh] items-center justify-center overflow-hidden"
-	on:mousemove={handleHeroMouseMove}
+	onmousemove={handleHeroMouseMove}
 	role="group"
 >
 	{#if visible}
@@ -86,18 +86,18 @@
 					class="cta-container flex flex-wrap justify-center gap-4 md:justify-start"
 					in:fly={{ y: 20, duration: 800, delay: 1300 }}
 				>
-					<a
-						href="/contact"
-						class="cta-button btn btn-accent no-animation md:btn-wide flex-1 md:flex-none"
+					<button
+						onclick={() => (window.location.href = '/contact')}
+						class="cta-button btn btn-primary no-animation md:btn-wide flex-1 md:flex-none"
 					>
 						Let's Collaborate
-					</a>
-					<a
-						href="/projects"
-						class="cta-button btn btn-accent no-animation md:btn-wide flex-1 md:flex-none"
+					</button>
+					<button
+						onclick={() => (window.location.href = '/projects')}
+						class="cta-button btn btn-primary no-animation md:btn-wide flex-1 md:flex-none"
 					>
 						View Projects
-					</a>
+					</button>
 				</div>
 			</div>
 		</div>
