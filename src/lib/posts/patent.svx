@@ -4,7 +4,6 @@ shortDescription: 'Patented technology for enhancing performance in AR/VR applic
 categories:
   - ar-vr
 thumbnail: '/placeholder.svg?height=300&width=400'
-image: '/placeholder.svg?height=600&width=800'
 github: null
 highlight: true
 publishedDate: '2023-08-15' # Approximate date patent was granted/published

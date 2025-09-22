@@ -4,7 +4,6 @@ shortDescription: 'NLP-driven system for processing general statements, question
 categories:
   - ai
 thumbnail: '/placeholder.svg?height=300&width=400'
-image: '/placeholder.svg?height=600&width=800'
 github: 'https://github.com/qnlbnsl/A.L.I.C.E'
 highlight: true # Example: Highlighting this project
 publishedDate: '2024-03-10' # Example Date
