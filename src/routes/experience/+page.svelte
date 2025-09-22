@@ -14,6 +14,7 @@
 	} from '$lib/utils/experienceUtils.js';
 	import HorizontalTimelineItem from '$lib/components/HorizontalTimelineItem.svelte';
 	import CompanyRolesView from '$lib/components/CompanyRolesView.svelte';
+	import RoleDetailsModal from '$lib/components/RoleDetailsModal.svelte';
 
 	/**
 	 * @typedef {import('$lib/types/work_experience.js').WorkExperienceData} WorkExperienceData
@@ -47,6 +48,16 @@
 	 * @type {import('svelte').Component | null}
 	 */
 	let RoleComponent = $state(null);
+
+	/**
+	 * @type {import('$lib/utils/experienceUtils.js').Role | null}
+	 */
+	let selectedRole = $state(null);
+
+	/**
+	 * @type {boolean}
+	 */
+	let isModalOpen = $state(false);
 
 	// Process experience data using the utility functions
 	const {
@@ -89,10 +100,19 @@
 		const roleId = event.detail;
 		selectedRoleId = roleId;
 
+		// Find the role data from the current active experience
+		if (activeExperience && activeExperience.roles) {
+			const role = activeExperience.roles.find((r) => r.id === roleId);
+			if (role) {
+				selectedRole = role;
+				isModalOpen = true;
+				return;
+			}
+		}
+
+		// Fallback to loading SVX file (for backward compatibility)
 		try {
-			// Load the SVX file based on the selected role ID
 			const expModule = await import(`$lib/work_experience/${roleId}.svx`);
-			// Set the component to the default export from the SVX file
 			RoleComponent = expModule.default;
 		} catch (err) {
 			console.error(`Error loading role ${roleId}:`, err);
@@ -106,6 +126,15 @@
 	function closeRoleDetails() {
 		selectedRoleId = null;
 		RoleComponent = null;
+	}
+
+	/**
+	 * Close the modal
+	 */
+	function closeModal() {
+		isModalOpen = false;
+		selectedRole = null;
+		selectedRoleId = null;
 	}
 
 	// Create an icons object for the getTypeDetails function
@@ -161,10 +190,10 @@
 	{/if}
 
 	{#if timelineData && timelineData.length > 0 && visible}
-		<div class="timeline-container mb-12 w-full overflow-x-auto pb-8">
+		<div class="timeline-container mb-12 w-full overflow-x-auto pt-8 pb-8">
 			<div class="timeline-track min-w-max px-8">
 				<div class="relative flex items-start">
-					<div class="bg-base-300 absolute top-5 h-0.5 w-full"></div>
+					<div class="bg-base-300 absolute top-5 z-0 h-0.5 w-full"></div>
 
 					<div class="relative z-10 flex w-full justify-center md:justify-between">
 						{#each timelineData as item (item.id)}
@@ -243,3 +272,6 @@
 		</p>
 	{/if}
 </section>
+
+<!-- Role Details Modal -->
+<RoleDetailsModal role={selectedRole} isOpen={isModalOpen} onClose={closeModal} />

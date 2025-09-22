@@ -3,6 +3,17 @@
  */
 
 /**
+ * @typedef {Object} Role
+ * @property {string} id - Role ID
+ * @property {string} title - Role title
+ * @property {string} period - Role period
+ * @property {string} dateRange - Formatted date range
+ * @property {string[]} achievements - List of achievements
+ * @property {string[]} technologies - List of technologies
+ * @property {string|null} link - Optional link to project
+ */
+
+/**
  * @typedef {Object} TimelineItem
  * @property {string} id - Unique identifier
  * @property {string} title - Job title
@@ -13,7 +24,9 @@
  * @property {Date} endDate - End date
  * @property {string} type - Type of experience (startup, consultant, regular)
  * @property {boolean} [isCompanyItem] - Whether this item represents a company with multiple roles
- * @property {TimelineItem[]} [roles] - Array of roles for company items
+ * @property {Role[]} [roles] - Array of roles for company items
+ * @property {string[]} [achievements] - List of achievements (for single role items)
+ * @property {string[]} [technologies] - List of technologies (for single role items)
  */
 
 /**
@@ -56,7 +69,8 @@ export function formatDateRange(startDate, endDate) {
 	}
 
 	const start = new Date(startDateStr);
-	const end = endDateStr && endDateStr.toLowerCase() !== 'present' ? new Date(endDateStr) : new Date();
+	const end =
+		endDateStr && endDateStr.toLowerCase() !== 'present' ? new Date(endDateStr) : new Date();
 
 	// Format as MMM YYYY
 	const startStr = start.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
@@ -66,8 +80,7 @@ export function formatDateRange(startDate, endDate) {
 			: 'Present';
 
 	// Calculate duration
-	const months =
-		(end.getFullYear() - start.getFullYear()) * 12 + end.getMonth() - start.getMonth();
+	const months = (end.getFullYear() - start.getFullYear()) * 12 + end.getMonth() - start.getMonth();
 	const years = Math.floor(months / 12);
 	const remainingMonths = months % 12;
 
@@ -118,8 +131,8 @@ export function processExperienceData(workExperiences = []) {
 					? new Date(experience.endDate)
 					: new Date(),
 			type: experience.type || 'regular', // Default to regular if type not specified
-			isCompanyItem: false, // Flag to identify single role items
-			roles: [] // Initialize roles as an empty array
+			isCompanyItem: experience.roles && experience.roles.length > 1, // Flag to identify multi-role items
+			roles: experience.roles || [] // Include roles if they exist
 		};
 	});
 
@@ -155,7 +168,7 @@ export function processExperienceData(workExperiences = []) {
 
 		if (types.includes('startup')) {
 			acc[company] = 'startup';
-		} else if (types.some(type => type?.toLowerCase().includes('consult'))) {
+		} else if (types.some((type) => type?.toLowerCase().includes('consult'))) {
 			acc[company] = 'consultant';
 		} else {
 			acc[company] = 'regular';
@@ -164,8 +177,9 @@ export function processExperienceData(workExperiences = []) {
 		return acc;
 	}, /** @type {Record<string, string>} */ ({}));
 
-	// Create company-level timeline items for companies with multiple roles
-	let processedTimelineData = [...timelineData];
+	// Since we're now loading data with roles already grouped by company,
+	// we can use the timeline data directly
+	const processedTimelineData = timelineData;
 
 	// Get companies by each classification
 	const startupCompanies = Object.keys(companyTypes).filter(
@@ -177,43 +191,6 @@ export function processExperienceData(workExperiences = []) {
 	const multiRoleCompanies = Object.keys(companyCounts).filter(
 		(company) => companyCounts[company] > 1
 	);
-
-	// Create company-level timeline items for multi-role companies and replace individual items
-	if (multiRoleCompanies.length > 0) {
-		// Filter out individual role items from multi-role companies
-		processedTimelineData = timelineData.filter(
-			item => !multiRoleCompanies.includes(item.company)
-		);
-
-		// Add company-level items for multi-role companies
-		multiRoleCompanies.forEach(company => {
-			const roles = companyGroups[company];
-			// Find the earliest start date and latest end date
-			const earliestStartDate = new Date(Math.min(...roles.map(r => r.startDate.getTime())));
-			const latestEndDate = new Date(Math.max(...roles.map(r => r.endDate.getTime())));
-
-			// Format dates for date range
-			const startDateStr = earliestStartDate.toISOString().split('T')[0];
-			const endDateStr = latestEndDate.getTime() === new Date().getTime() ? 'Present' : latestEndDate.toISOString().split('T')[0];
-
-			// Create a company-level timeline item
-			processedTimelineData.push({
-				id: `company-${company.toLowerCase().replace(/\s+/g, '-')}`,
-				title: company,
-				company: company,
-				date: earliestStartDate.getFullYear().toString(),
-				dateRange: formatDateRange(startDateStr, endDateStr),
-				startDate: earliestStartDate,
-				endDate: latestEndDate,
-				type: companyTypes[company],
-				isCompanyItem: true,
-				roles: roles // Store the individual roles
-			});
-		});
-
-		// Resort the timeline data by date (newest first)
-		processedTimelineData.sort((a, b) => b.startDate.getTime() - a.startDate.getTime());
-	}
 
 	return {
 		timelineData: processedTimelineData,

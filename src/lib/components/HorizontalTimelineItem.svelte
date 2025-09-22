@@ -36,15 +36,15 @@
 
 	let dateCircleClasses = $derived(() => {
 		let base =
-			'date-circle z-10 mb-2 flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold';
+			'date-circle z-10 mb-2 flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold border-2';
 		if (isActive) {
-			if (isStartup) return `${base} border-2 border-primary bg-primary text-white`;
-			if (isConsultant) return `${base} border-2 border-blue-300 bg-blue-600 text-white`;
-			return `${base} bg-primary text-white`;
+			if (isStartup) return `${base} border-primary bg-primary text-white`;
+			if (isConsultant) return `${base} border-info bg-info text-white`;
+			return `${base} border-primary bg-primary text-white`;
 		} else {
-			if (isStartup) return `${base} bg-violet-100 text-violet-900`;
-			if (isConsultant) return `${base} bg-blue-100 text-blue-900`;
-			return `${base} bg-base-300 text-base-content`;
+			if (isStartup) return `${base} border-primary bg-base-200 text-base-content shadow-sm`;
+			if (isConsultant) return `${base} border-info bg-base-200 text-base-content shadow-sm`;
+			return `${base} border-base-300 bg-base-200 text-base-content shadow-sm`;
 		}
 	});
 
@@ -53,26 +53,26 @@
 			'relative max-w-[280px] min-w-[220px] overflow-hidden rounded-lg p-4 text-left transition-all duration-200 bg-base-200 text-base-content hover:shadow-md hover:bg-[var(--color-card-hover)]';
 		if (isActive) {
 			if (isStartup) return `${base} border border-primary shadow-md`;
-			if (isConsultant) return `${base} border border-blue-300 shadow-md`;
+			if (isConsultant) return `${base} border border-info shadow-md`;
 			return `${base} border border-primary shadow-md`;
 		} else {
 			if (isStartup) return `${base} border border-base-300 shadow-sm hover:border-primary`;
-			if (isConsultant) return `${base} border border-base-300 shadow-sm hover:border-blue-300`;
+			if (isConsultant) return `${base} border border-base-300 shadow-sm hover:border-info`;
 			return `${base} border border-base-300 shadow-sm`;
 		}
 	});
 
 	let arrowClasses = $derived(() => {
 		let base = 'absolute inset-x-0 bottom-0 h-1';
-		if (isStartup) return `${base} bg-gradient-to-r from-primary to-violet-500`;
-		if (isConsultant) return `${base} bg-gradient-to-r from-blue-400 to-blue-500`;
-		return `${base} bg-gradient-to-r from-primary to-violet-500`;
+		if (isStartup) return `${base} bg-primary`;
+		if (isConsultant) return `${base} bg-info`;
+		return `${base} bg-primary`;
 	});
 
 	let roleBadgeClasses = $derived(() => {
 		let base = 'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium border';
-		if (isStartup) return `${base} bg-violet-100 text-violet-800 border-violet-200`;
-		if (isConsultant) return `${base} bg-blue-100 text-blue-800 border-blue-200`;
+		if (isStartup) return `${base} bg-primary/10 text-primary border-primary/20`;
+		if (isConsultant) return `${base} bg-info/10 text-info border-info/20`;
 		return `${base} bg-base-100 text-base-content border-base-300`; // For Multi-role on non-startup/consultant
 	});
 
@@ -80,7 +80,7 @@
 		let base = 'mb-1 text-center text-lg font-semibold';
 		if (isActive) {
 			if (isStartup) return `${base} text-primary`;
-			if (isConsultant) return `${base} text-blue-700`;
+			if (isConsultant) return `${base} text-info`;
 			return `${base} text-primary`;
 		} else {
 			return `${base} text-base-content`;
@@ -89,8 +89,8 @@
 
 	let companyClasses = $derived(() => {
 		let base = 'mb-2 text-center text-sm font-medium';
-		if (isStartup) return `${base} text-violet-600`;
-		if (isConsultant) return `${base} text-blue-600`;
+		if (isStartup) return `${base} text-primary`;
+		if (isConsultant) return `${base} text-info`;
 		return `${base} text-base-content/80`;
 	});
 

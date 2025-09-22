@@ -5,7 +5,6 @@ categories:
   - ai
   - healthcare
 thumbnail: '/placeholder.svg?height=300&width=400'
-image: '/placeholder.svg?height=600&width=800'
 github: null # Use null or omit if no link
 highlight: true
 publishedDate: '2024-01-15' # Example Date - Replace with actual date
