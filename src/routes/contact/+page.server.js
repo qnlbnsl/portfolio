@@ -24,7 +24,7 @@ export const actions = {
 		}
 
 		const todoistApiKey = env.TODOIST_API_KEY;
-    const projectId = env.TODOIST_PROJECT_ID;
+		const projectId = env.TODOIST_PROJECT_ID;
 
 		if (!todoistApiKey) {
 			console.error('Todoist API Key is not configured in environment variables.');
@@ -57,7 +57,9 @@ export const actions = {
 			if (!response.ok) {
 				const errorBody = await response.text();
 				console.error(`Todoist API Error (${response.status}): ${errorBody}`);
-        console.error(`Todoist API Key: ${todoistApiKey}, Project ID: ${projectId}, Task Content: ${taskContent}, Task Description: ${taskDescription}`);
+				console.error(
+					`Todoist API Key: ${todoistApiKey}, Project ID: ${projectId}, Task Content: ${taskContent}, Task Description: ${taskDescription}`
+				);
 				return fail(response.status, {
 					error: 'Failed to create Todoist task.',
 					name,
@@ -68,7 +70,11 @@ export const actions = {
 
 			// Task created successfully - SvelteKit form actions automatically clear
 			// the form on success unless told otherwise. We just return the success message.
-			return { success: true, message: 'Message sent successfully! Thank you for reaching out. We will get back to you shortly.' };
+			return {
+				success: true,
+				responseMessage:
+					'Message sent successfully! Thank you for reaching out. We will get back to you shortly.'
+			};
 		} catch (error) {
 			console.error('Error submitting to Todoist:', error);
 			return fail(500, {
